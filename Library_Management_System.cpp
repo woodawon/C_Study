@@ -56,7 +56,8 @@ int main()
                 printf("Enter author name : "); 
                 scanf("%s", &ar_nm); 
                 for(int i = 0;i < count; i++) {
-                    if(strcmp(ar_nm, lib[i].author) == 0) { // strcmp(a, b) : string a, b 값 비교 => 값이 같으면 0 return
+                    // strcmp(a, b) : string a, b 값 비교 => 값이 같으면 0 return
+                    if(strcmp(ar_nm, lib[i].author) == 0) { 
                         printf("%s %s %d %f \n", lib[i].book_name,
                         lib[i].author, lib[i].pages, lib[i].price);
                     } else {
