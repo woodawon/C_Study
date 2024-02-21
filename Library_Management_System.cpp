@@ -25,7 +25,7 @@ int main()
         printf("4. List the count of books in the library \n");
         printf("5. Exit \n");
         printf("Enter one of the above: ");
-        scanf("%d", &input);
+        scanf("%d", &input); // 원하는 번호 선택
 
         switch(input) {
             case 1: // 책 정보 추가하기
