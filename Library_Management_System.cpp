@@ -13,7 +13,7 @@ struct library {
 int main()
 { 
     struct library lib[100]; // struct instance 선언
-    char ar_nm[30], bk_nm[30]; // 저자 이름, 책 이름
+    char ar_nm[30]; // 저자 이름
 
     int u, input, count = 0; // 사용자 수, 서비스 선택, 책 개수
 
