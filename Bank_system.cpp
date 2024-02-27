@@ -36,8 +36,6 @@ void account() {
     char password[20], ch;
     FILE *fp;
     struct udata u1;
-    struct upass p1;
-    struct upass u2;
 
     // 사용자 데이터 담을 파일 열기
     fp = fopen("username.txt", "ab"); 
@@ -81,9 +79,97 @@ void account() {
 }
 
 void accountcreated() {
-    int i;
     char ch;
     system("cls");
+    
+    printf("잠시만 기다려주세요.. \n\n데이터를 처리중입니다..");
+    for(int i = 0; i < 200000000; i++) {
+        i++;
+        i--;
+    }
+    gotoxy(30, 10);
+    printf("계정이 성공적으로 만들어졌습니다!");
+    gotoxy(0, 20);
+    printf("로그인을 하시려면 Enter 키를 눌러주세요.");
+    getch();
+    login();
+}
+
+void login() {
+    system("cls");
+
+    char username[50];
+    char password[50];
+    char ch;
+    FILE *fp;
+    struct udata u1;
+    struct upass p1;
+
+    fp = fopen("username.txt", "rb");
+    if(fp == NULL) { // 예외 처리
+        printf("파일 실행 중 오류 발생");
+    }
+
+    gotoxy(34, 2);
+    printf(" 계정 로그인 ");
+    gotoxy(7, 5);
+    printf("***********************************************"
+           "********************************");
+    gotoxy(35, 10);
+    printf("=== 로그인 ===");
+
+    gotoxy(35, 12);
+    printf("닉네임 : ");
+    scanf("%s", &username);
+
+    gotoxy(35, 14);
+    printf("비밀번호 : ");
+    for(int i = 0; i < 50; i++) {
+        ch = getch();
+        if(ch != 13) {
+            password[i] = ch;
+            ch = '*';
+            printf("%c", ch);
+        } else {
+            break;
+        }
+    }
+
+    // 로그인 시 입력한 닉네임이 계정 목록(파일)에 있는지 확인
+    while(fread(&u1, sizeof(u1), 1, fp)) {
+        if(strcmp(username, u1.username) == 0) {
+            loginsu(); // 로그인 성공(login success)
+            display(username);
+        }
+    }
+    fclose(fp);
+}
+
+void loginsu() {
+    system("cls");
+    printf("계정 정보를 가져오고 있습니다..");
+    FILE *fp;
+    struct udata u1;
+    for(int i = 0; i < 20000; i++) {
+        i++;
+        i--;
+    }
+    gotoxy(30, 10);
+    printf("로그인 성공!");
+    gotoxy(0, 20);
+    printf("계속하시려면 Enter키를 눌러주세요.");
+    getch();
+}
+
+void display(char username1[]) {
+    system("cls");
+    FILE* fp;
+    int choice;
+    struct udata u1;
+    fp = fopen("username.txt", "rb");
+    if(fp == NULL) { // 예외 처리
+        printf("파일 실행 중 오류 발생");
+    }
     
 }
 
