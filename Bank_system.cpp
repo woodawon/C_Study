@@ -171,6 +171,8 @@ void display(char username1[]) {
         printf("파일 실행 중 오류 발생");
     }
     
+
+    
 }
 
 int main() {
