@@ -289,19 +289,59 @@ void checkbalance(char username2[]) {
     struct money m1;
     char ch;
     int summoney = 0;
+    int i = 1, l = 10, n = 10, v = 10;
     FILE *fm;
     fm = fopen("mon.txt", "rb");
     gotoxy(30, 2);
     printf("=== 밸런스 게시판 ===");
     gotoxy(30, 3);
     printf("***************************");
-    gotoxy(5, 10);
+    gotoxy(5, l);
     printf("S no.");
-    gotoxy(30, 10);
+    gotoxy(30, n);
     printf("transaction id");
-    gotoxy(60, 10);
+    gotoxy(60, v);
     printf("amount");
     
+    while(fread(&m1, sizeof(m1), 1, fm)) {
+        if(strcmp(username2, m1.usernameto) == 0) {
+            gotoxy(5, ++l);
+            printf("%d", i);
+            i++;
+            gotoxy(30, ++n);
+            printf("%s", m1.userpersonfrom);
+            gotoxy(60, ++v);
+            printf("%d", m1.money1);
+            // total money
+            summoney += m1.money1;
+        }
+    }
+    gotoxy(80, 10);
+    printf("총량 : ");
+    gotoxy(80, 12);
+    printf("%d\n", summoney);
+    printf("계속하시려면 아무 키나 입력해주세요..");
+    getch();
+    
+    fclose(fm);
+    display(username2); // 다시 선택 화면으로 넘어감
+}
+
+void logout() {
+    system("cls");
+    printf("잠시만 기다려주세요, 로그아웃을 하는 중입니다..");
+    for(int i = 0; i < 10; i++) {
+        for(j = 0; j < 25000000; j++) {
+            i++;
+            i--;
+        }
+        printf(".");
+    }
+    gotoxy(30, 10);
+    printf("정상적으로 로그아웃 되었습니다!\n");
+    gotoxy(0, 20);
+    printf("계속하시려면 아무 키나 입력해주세요..");
+    getch();
 }
 
 int main() {
