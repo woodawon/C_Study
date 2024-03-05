@@ -32,7 +32,7 @@ void gotoxy(int x, int y) { // 콘솔 커서 이동
     );
 }
 
-void account() {
+void account() { // 계정 만들기 함수
     char password[20], ch;
     FILE *fp;
     struct udata u1;
@@ -78,7 +78,7 @@ void account() {
     accountcreated();
 }
 
-void accountcreated() {
+void accountcreated() { // 계정 만든 후 로그인으로 넘어가는 화면 함수수
     char ch;
     system("cls");
     
@@ -95,7 +95,7 @@ void accountcreated() {
     login();
 }
 
-void login() {
+void login() { // 로그인 함수수
     system("cls");
 
     char username[50];
@@ -145,7 +145,7 @@ void login() {
     fclose(fp);
 }
 
-void loginsu() {
+void loginsu() { // 로그인 성공 함수
     system("cls");
     printf("계정 정보를 가져오고 있습니다..");
     FILE *fp;
@@ -161,7 +161,7 @@ void loginsu() {
     getch();
 }
 
-void display(char username1[]) {
+void display(char username1[]) { // 사용자 정보 출력 함수
     system("cls");
     FILE* fp;
     int choice;
@@ -170,6 +170,138 @@ void display(char username1[]) {
     if(fp == NULL) { // 예외 처리
         printf("파일 실행 중 오류 발생");
     }
+    
+    while(fread(&u1, sizeof(u1), 1, fp)) {
+        if(strcmp(username1, u1.username) == 0) {
+            gotoxy(30, 1);
+            printf("환영합니다, %s %s !", u1.fname, u1.lname);
+            gotoxy(28, 2);
+            printf("..........................");
+            gotoxy(55, 8);
+            printf("***************************");
+            gotoxy(55, 10);
+            printf("닉네임 : %s %s", u1,fname, u1.lname);
+            gotoxy(55, 12);
+            printf("전화번호 : %s", u1.pnumber);
+            gotoxy(55, 22);
+            printf("주소 : %s", u1.address);
+            gotoxy(55, 24);
+        }
+    }
+    fclose(fp);
+    gotoxy(0, 6);
+    
+    // 이제 다른 항목들을 사용자가 다시 선택할 수 있게 할 정보 출력하기
+    printf("  메인  ");
+    gotoxy(0, 7);
+    printf("******");
+    gotoxy(0, 9);
+    printf("1. 밸런스 확인하기");
+    gotoxy(0, 11);
+    printf("2. 돈 전송하기");
+    gotoxy(0, 13);
+    printf("3. 로그아웃\n\n");
+    gotoxy(0, 15);
+    printf("4. 나가기\n\n");
+    printf("선택해주세요. : ");
+    scanf("%d", &choice);
+    switch(choice) {
+        case 1:
+            checkbalance(username1);
+            break;
+        case 2:
+            transfermoney();
+            break;
+        case 3:
+            logout();
+            login();
+            break;
+        case 4:
+            exit(0);
+            break;
+    }
+}
+
+void transfermoney() { // 돈 전송 함수
+    system("cls");
+    
+    struct udata u1;
+    struct money m1;
+    char usernamet[20];
+    char usernamep[20];
+    FILE *fm, *fp;
+    
+    fp = fopen("username.txt", "rb"); // 사용자 이름
+    fm = fopen("mon.txt", "ab"); // 전송할 돈 양
+    
+    gotoxy(33, 4);
+    printf("--- 돈 전송하기 ---");
+    gotoxy(33, 5);
+    printf("========================");
+    gotoxy(33, 11);
+    printf("사용자님의 닉네임을 입력해주세요 : ");
+    scanf("%s", &usernamet);
+    gotoxy(33, 13);
+    printf("전송할 분의 닉네임을 입력해주세요 : ");
+    scanf("%s", &usernamep);
+    
+    while(fread(&u1, sizeof(u1), 1, fp)) {
+        if(strcmp(usernamep, u1.username) == 0) {
+            strcpy(m1.usernameto, u1.username);
+            strcpy(m1.userpersonfrom, usernamet);
+        }
+    }
+    gotoxy(33, 16);
+    
+    printf("전송하실 금액을 입력해주세요 : ");
+    scanf("%d", &m1.money1);
+    fwrite(&m1, sizeof(m1), 1, fm);
+    gotoxy(0, 26);
+    printf(
+        "--------------------------------------------------"
+        "--------------------------------------------");
+    gotoxy(0, 28);
+    printf(
+        "--------------------------------------------------"
+        "--------------------------------------------");
+    gotoxy(0, 29);
+    printf("전송중입니다. 잠시만 기다려주세요..");
+    gotoxy(10, 27);
+    for(int i = 0; i < 70; i++) {
+        for(int j = 0; j < 1200000;j++) {
+            j++;
+            j--;
+        }
+        printf("*");
+    }
+    
+    gotoxy(33 ,40);
+    printf("성공적으로 금액이 전송되었습니다! \n");
+    printf("계속하시려면 아무 키나 눌러주세요..");
+    getch();
+    fclose(fp);
+    fclose(fm);
+    display(usernamet); // 홈화면으로 반환
+}
+
+void checkbalance(char username2[]) {
+    system("cls");
+    struct money m1;
+    char ch;
+    int summoney = 0;
+    FILE *fm;
+    fm = fopen("mon.txt", "rb");
+    gotoxy(30, 2);
+    printf("=== 밸런스 게시판 ===");
+    gotoxy(30, 3);
+    printf("***************************");
+    gotoxy(5, 10);
+    printf("S no.");
+    gotoxy(30, 10);
+    printf("transaction id");
+    gotoxy(60, 10);
+    printf("amount");
+    
 }
 
 int main() {
