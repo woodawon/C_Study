@@ -180,7 +180,7 @@ void display(char username1[]) { // 사용자 정보 출력 함수
             gotoxy(55, 8);
             printf("***************************");
             gotoxy(55, 10);
-            printf("닉네임 : %s %s", u1,fname, u1.lname);
+            printf("닉네임 : %s %s", u1.fname, u1.lname);
             gotoxy(55, 12);
             printf("전화번호 : %s", u1.pnumber);
             gotoxy(55, 22);
@@ -331,7 +331,7 @@ void logout() {
     system("cls");
     printf("잠시만 기다려주세요, 로그아웃을 하는 중입니다..");
     for(int i = 0; i < 10; i++) {
-        for(j = 0; j < 25000000; j++) {
+        for(int j = 0; j < 25000000; j++) {
             i++;
             i--;
         }
